@@ -48,7 +48,7 @@ install:
   - mv boost_1_${BOOST_VERSION}_0 boost
   - cd boost
   - ./bootstrap.sh
-  - ./b2 -j3 -layout=system threading=multi cxxflags=-std=c++11 link=shared variant=release --without-python --without-iostreams --without-serialization --without-graph --without-log --without-math --without-signals --without-test --without-wave --without-mpi --without-program_options --without-graph_parallel --without-context --without-coroutine --without-random --without-timer --without-date_time
+  - sudo ./b2 -j3 -layout=system threading=multi cxxflags=-std=c++11 link=shared variant=release --without-python --without-iostreams --without-serialization --without-graph --without-log --without-math --without-signals --without-test --without-wave --without-mpi --without-program_options --without-graph_parallel --without-context --without-coroutine --without-random --without-timer --without-date_time install
   - cd ../..
 
 script:
@@ -56,7 +56,7 @@ script:
   - export LD_LIBRARY_PATH=$(pwd)/vendor/boost/stage/lib:$LD_LIBRARY_PATH
   - export CPPFLAGS="-fprofile-arcs -ftest-coverage"
   - export LIBS="-lgcov"
-  - autoreconf -if
+  - autoreconf -ivf "$@"
   - ./configure BOOST_LDFLAGS="-L$(pwd)/vendor/boost/stage/lib" --enable-debug || cat config.log
   - make -j3 all test
   - coveralls --exclude vendor --exclude src --exclude build --exclude tools --exclude libaegisub/windows > /dev/null
