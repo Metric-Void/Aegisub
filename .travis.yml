@@ -23,9 +23,9 @@ addons:
 matrix:
   include:
     - compiler: gcc
-      env: BOOST_VERSION=55
+      env: BOOST_VERSION=68
     - compiler: gcc
-      env: BOOST_VERSION=60
+      env: BOOST_VERSION=70
       before_install:
         - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5 --slave /usr/bin/gcov gcov /usr/bin/gcov-5
 
@@ -33,7 +33,7 @@ install:
   # Can't install these via the apt addon due to the whitelist
   - sudo apt-get install -y -qq libffms2-dev libwxgtk3.0-dev libuchardet-dev
 
-  - sudo pip install cpp-coveralls
+  - sudo pip install -U cpp-coveralls
   - sudo luarocks install busted > /dev/null
   - sudo luarocks install moonscript > /dev/null
   - sudo luarocks install uuid > /dev/null
@@ -48,7 +48,7 @@ install:
   - mv boost_1_${BOOST_VERSION}_0 boost
   - cd boost
   - ./bootstrap.sh
-  - sudo ./b2 -j3 -layout=system threading=multi cxxflags=-std=c++11 link=shared variant=release --without-python --without-iostreams --without-serialization --without-graph --without-log --without-math --without-signals --without-test --without-wave --without-mpi --without-program_options --without-graph_parallel --without-context --without-coroutine --without-random --without-timer --without-date_time install
+  - sudo ./b2 -layout=system threading=multi cxxflags=-std=c++11 link=shared variant=release --without-python --without-iostreams --without-serialization --without-graph --without-log --without-math --without-signals --without-test --without-wave --without-mpi --without-program_options --without-graph_parallel --without-context --without-coroutine --without-random --without-timer --without-date_time install
   - cd ../..
 
 script:
